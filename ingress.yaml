@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ annotations:
+  alb.ingress.kubernetes.io/load-balancer-name: eks-app-internet-lb
+  alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:463877552462:certificate/8ad6ed5d-f06b-48c0-8a3d-111783b3de10"
+  alb.ingress.kubernetes.io/healthcheck-path: /
+  alb.ingress.kubernetes.io/target-type: ip
+  alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+  alb.ingress.kubernetes.io/ssl-redirect: '443'
+ name: dev-chingari-chat-helper
+ namespace: chingari-chat-helper
+spec:
+ ingressClassName: dev-lb-class
+ rules:
+  - host: devchathelpers.chingari.io
+    http:
+     paths:
+      - backend:
+         service:
+          name: dev-chingari-chat-helper
+          port:
+           number: 4011
+        pathType: Prefix
+        path: /

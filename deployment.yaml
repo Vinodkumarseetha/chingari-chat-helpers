@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-chingari-chat-helper
+  namespace: chingari-chat-helper
+spec:
+  selector:
+    matchLabels:
+      app: dev-chingari-chat-helper
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dev-chingari-chat-helper
+    spec:
+      containers:
+      - name: dev-chingari-chat-helper
+        image: 463877552462.dkr.ecr.us-east-1.amazonaws.com/dev-chingari-chat-helpers:6b8a0d4
+        imagePullPolicy: Always
+        env:
+        - name: Build_Env
+          value: development
+        ports:
+        - containerPort: 4011
+        resources:
+          limits:
+            cpu: "1024m"
+            memory: "1Gi"
+          requests:
+            cpu: "1024m"
+            memory: "1Gi"
